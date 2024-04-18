@@ -1,0 +1,64 @@
+table TBLCALENDARIO
+	lineageTag: b4d66234-efd6-4660-b347-1c890710480a
+
+	column Date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 13fa9017-fd35-4c54-9dbd-c686db808cb9
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 96170577-57bf-4244-9fa4-e1a16149e632
+			defaultHierarchy: LocalDateTable_ee85d2c1-9694-4ae5-a8cf-a2698fdc17fe.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column MES = MONTH(TBLCALENDARIO[Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: 1bbbd8ec-01bc-4de9-881a-875301190b3a
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N MES' = FORMAT(TBLCALENDARIO[Date],"MMMM")
+		dataType: string
+		lineageTag: 6da89723-8690-4307-9bf5-3640884648f2
+		summarizeBy: none
+		isDataTypeInferred
+		sortByColumn: MES
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIA SEM' = FORMAT(WEEKDAY(TBLCALENDARIO[Date]),"DDDD")
+		dataType: string
+		lineageTag: b15731b9-99ff-4848-b44a-b2d6a3486270
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIA = DAY(TBLCALENDARIO[Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: fc5a3cb7-7f96-414d-a884-6d018af8e713
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TBLCALENDARIO = calculated
+		mode: import
+		source = CALENDAR(MIN(tblVENDAS[DATA]),MAX(tblVENDAS[DATA]))
+
+	annotation PBI_Id = f3b86c8a72584c4aafb973574aae274f
+

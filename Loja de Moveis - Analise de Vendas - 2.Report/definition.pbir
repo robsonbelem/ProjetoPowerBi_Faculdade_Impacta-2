@@ -1,0 +1,9 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../Loja de Moveis - Analise de Vendas - 2.SemanticModel"
+    },
+    "byConnection": null
+  }
+}

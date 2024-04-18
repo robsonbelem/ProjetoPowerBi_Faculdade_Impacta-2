@@ -1,0 +1,230 @@
+table tblVENDAS
+	lineageTag: 49afb9c0-ca48-4475-81b6-6e83ff1153c5
+
+	column DATA
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 1ba1bd4f-452c-4d95-9306-94eedf070c25
+		summarizeBy: none
+		sourceColumn: DATA
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column idLOJA
+		dataType: string
+		lineageTag: 441e89ee-3d9c-44bb-97cc-86acc0e7f7ee
+		summarizeBy: none
+		sourceColumn: idLOJA
+
+		annotation SummarizationSetBy = Automatic
+
+	column idVENDEDOR
+		dataType: string
+		lineageTag: 2d562e01-4217-4f07-9cea-24c86f339caa
+		summarizeBy: none
+		sourceColumn: idVENDEDOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANT
+		dataType: int64
+		formatString: 0
+		lineageTag: 002b78f4-8f31-49f2-b917-a45997259845
+		summarizeBy: sum
+		sourceColumn: QUANT
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column idPRODUTO
+		dataType: string
+		lineageTag: b0b96f5a-0443-42f8-bb39-4ae10c2e9ddb
+		summarizeBy: none
+		sourceColumn: idPRODUTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESC
+		dataType: double
+		formatString: 0
+		lineageTag: 712683c3-f54e-430e-9b48-04d13643984e
+		summarizeBy: sum
+		sourceColumn: DESC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'CUSTO UNITARIO' = RELATED(tblPRODUTO[custoUnitario])
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: abef5e96-20ba-4b2e-8afe-0db8a4faa1c5
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'NOME PRODUTO' = UPPER(RELATED(tblPRODUTO[descricaoProduto]))
+		dataType: string
+		lineageTag: ca5a8349-e879-4991-beb7-7ebcf62b070a
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'CUSTO VENDAS' = tblVENDAS[CUSTO UNITARIO] * tblVENDAS[QUANT]
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: bad0721f-069b-4d95-a57a-48d34d42e019
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'PRECO UNIT' = RELATED(tblPRODUTO[precoVenda])
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 8cf8d1b2-f882-4fb2-ad10-d4edc0a1c8d0
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'PRECO VENDA' = ```
+			tblVENDAS[QUANT]*tblVENDAS[PRECO UNIT]*
+			                       (1-(tblVENDAS[DESC]/100))
+			                       
+			```
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: f6f639b9-c751-4678-b513-b184a00e9b1a
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'LUCRO VENDA' = tblVENDAS[PRECO VENDA]-tblVENDAS[CUSTO VENDAS]
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 1977a45b-456e-4df4-bb35-4b69e88a3305
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'CLASSIFICACAO LUCRO' =
+			IF(tblVENDAS[LUCRO VENDA]>=8000,"EXCELENTE",
+			                    IF(tblVENDAS[LUCRO VENDA]>=6000,"ÓTIMO",
+			                    IF(tblVENDAS[LUCRO VENDA]>=4500,"BOM",
+			                    IF(tblVENDAS[LUCRO VENDA]>=3000,"REGULAR",
+			                    IF(tblVENDAS[LUCRO VENDA]>=2000,"RUIM","MUITO RUIM")))))
+		dataType: string
+		lineageTag: 96d561fb-7a6e-43ad-b3b5-1df51fdbf129
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'CLASSIFICACAO QUANT VEND' = ```
+			IF(tblVENDAS[QUANT]>=5,"PARABÉNS",
+			                           IF(tblVENDAS[QUANT]>=4,"CONTINUE ASSIM !",
+			                           IF(tblVENDAS[QUANT]>=3,"MELHORAR !", "RUIM")))
+			                          
+			```
+		dataType: string
+		lineageTag: d0fb4c94-4f0c-4d06-b259-0ef29fde2332
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIA = DAY(tblVENDAS[DATA])
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c9ec233-3ef0-45d8-9a66-a8ca2bbccd7f
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIA SEM' = FORMAT(tblVENDAS[DATA],"DDDD")
+		dataType: string
+		lineageTag: ca0a656e-e8a0-40dd-a96f-0936c0b55f0e
+		summarizeBy: none
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column MÊS = MONTH(tblVENDAS[DATA])
+		dataType: int64
+		formatString: 0
+		lineageTag: 17aa57ad-7509-489a-acfd-df1dcb756358
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NOM MES' = UPPER(FORMAT(tblVENDAS[DATA],"MMMM"))
+		dataType: string
+		lineageTag: 45c29c67-e925-4046-91b0-b49902359482
+		summarizeBy: none
+		isDataTypeInferred
+		sortByColumn: MÊS
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column ANO = YEAR(tblVENDAS[DATA])
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c8bc001-9516-46c7-9dc7-4d6966a293dd
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy TEMPO
+		lineageTag: 5858e119-5ac1-4e36-9f29-f48356327b56
+
+		level ANO
+			lineageTag: 50c59ca6-a92d-42b4-83a4-04ce03cf7282
+			column: ANO
+
+		level 'NOM MES'
+			lineageTag: b48e4977-8048-4c69-a9ab-25ce04cace87
+			column: 'NOM MES'
+
+		level DIA
+			lineageTag: 10bcb68d-9247-450e-b26e-f98c02906aa0
+			column: DIA
+
+	partition tblVENDAS = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\robso\OneDrive\Área de Trabalho\PROJETO POWER BI IMPACTA\ProjetoPowerBi_Faculdade_Impacata-2\baseVendas_Normalizado-2.xlsx"), null, true),
+				    tblVENDAS_Table = Fonte{[Item="tblVENDAS",Kind="Table"]}[Data],
+				    #"Tipo Alterado" = Table.TransformColumnTypes(tblVENDAS_Table,{{"DESC", type number}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

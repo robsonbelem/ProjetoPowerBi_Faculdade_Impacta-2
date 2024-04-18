@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 5.3203445940311553
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 869.02006761890391,
+            "y": 19.640689188062311
+          },
+          "nodeIndex": "tblLOJA",
+          "nodeLineageTag": "670a70ee-b395-4fdd-84ab-160a20d492a4",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 297.14301571663839,
+            "y": -10
+          },
+          "nodeIndex": "tblPRODUTO",
+          "nodeLineageTag": "7d207d0d-f5cc-4e50-ae7d-70e6e94913e3",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 297.06100349460462,
+            "y": 241.98195558965472
+          },
+          "nodeIndex": "tblVENDAS",
+          "nodeLineageTag": "49afb9c0-ca48-4475-81b6-6e83ff1153c5",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 149.77875491870702
+          },
+          "nodeIndex": "tblVENDEDOR",
+          "nodeLineageTag": "9fe70298-bfa1-48c2-a4ad-fb5ca0e79f85",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 628.02006761890391,
+            "y": 5.3203445940311553
+          },
+          "nodeIndex": "MEDIDAS",
+          "nodeLineageTag": "9139678a-bed1-4384-93b6-783f7296cbea",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 662.02006761890379,
+            "y": 255.32034459403116
+          },
+          "nodeIndex": "TBLCALENDARIO",
+          "nodeLineageTag": "b4d66234-efd6-4660-b347-1c890710480a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

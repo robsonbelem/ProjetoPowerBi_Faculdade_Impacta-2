@@ -1,0 +1,91 @@
+table MEDIDAS
+	lineageTag: 9139678a-bed1-4384-93b6-783f7296cbea
+
+	measure 'LUCRO TOTAL' = SUM(tblVENDAS[LUCRO VENDA])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: c543759e-ab5a-4c60-b6f6-1ea69f5f7669
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'FATURAMENTO TOTAL' = SUM(tblVENDAS[PRECO VENDA])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 42080f61-6571-430d-8367-b13cf9530b20
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CUSTO TOTAL' = SUM(tblVENDAS[CUSTO VENDAS])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 0a1efe02-dee5-46d2-8982-d470ff5c82ab
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'LUCRO MAXIMO' = MAX(tblVENDAS[LUCRO VENDA])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 8a7d042d-41ef-43c8-a41f-c0b01d52702f
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'LUCRO MÉDIO' = AVERAGE(tblVENDAS[LUCRO VENDA])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 48377213-619c-42c5-a428-07ac2a6512f3
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'LUCRO MINIMO' = MIN(tblVENDAS[LUCRO VENDA])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: fa460133-d97e-4637-9cc5-c52e133b7821
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% LUCRO' = [LUCRO TOTAL]/[FATURAMENTO TOTAL]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 185c06ff-255a-47b2-9913-a1da6393305d
+
+	measure 'QUANT VEND LUCRO TOP' = CALCULATE(COUNT(tblVENDAS[LUCRO VENDA]),tblVENDAS[LUCRO VENDA]>=6000)
+		formatString: #,0
+		lineageTag: 10dd0f93-37da-46cb-bc8d-a396f089a2b1
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'TOTAL VEND LUCRO TOP' = CALCULATE(SUM(tblVENDAS[LUCRO VENDA]),tblVENDAS[LUCRO VENDA]>=6000)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 8fb1ca98-c362-468b-8ac0-b811cbb6d935
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'QUANT VEND ENTRE VALORES' = CALCULATE(COUNT(tblVENDAS[LUCRO VENDA]),tblVENDAS[LUCRO VENDA]>=4000,tblVENDAS[LUCRO VENDA]<=6000)
+		formatString: 0
+		lineageTag: 96b660fc-865e-471e-a918-4b07cb332115
+
+	measure 'FATURAMENTO ANO ANTERIOR' = CALCULATE(MEDIDAS[FATURAMENTO TOTAL],DATEADD(TBLCALENDARIO[Date],-1,YEAR))
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 3158bb25-bbd3-47c1-af3f-af838fb75117
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Dif Ano %' = IF(ISERROR((MEDIDAS[FATURAMENTO TOTAL]/MEDIDAS[FATURAMENTO ANO ANTERIOR])-1),BLANK(),(MEDIDAS[FATURAMENTO TOTAL]/MEDIDAS[FATURAMENTO ANO ANTERIOR])-1)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 351e15b0-98bf-40cc-8513-0a3ca4c6c2d5
+
+	measure Meta = IF(MEDIDAS[Dif Ano %]>=0,"Aprovado","Reprovado")
+		lineageTag: bce29b4d-a818-4af3-848c-d17d1db442de
+
+	column Column
+		dataType: int64
+		formatString: 0
+		lineageTag: ced14c4e-864e-4029-9558-728368f70ef4
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MEDIDAS = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = e4d6f98ceae448f8bc581c4166ab0374
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

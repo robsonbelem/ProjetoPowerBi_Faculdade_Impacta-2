@@ -1,0 +1,25 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["tblLOJA","tblPRODUTO","tblVENDAS","tblVENDEDOR"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.128.952.0 (24.04)
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table tblLOJA
+ref table DateTableTemplate_b65bedb4-94df-4116-ac7c-63d9b5d87321
+ref table tblPRODUTO
+ref table tblVENDAS
+ref table tblVENDEDOR
+ref table MEDIDAS
+ref table TBLCALENDARIO
+ref table LocalDateTable_ee85d2c1-9694-4ae5-a8cf-a2698fdc17fe
+

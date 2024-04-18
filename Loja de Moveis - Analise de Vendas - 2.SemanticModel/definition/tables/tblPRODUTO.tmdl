@@ -1,0 +1,63 @@
+table tblPRODUTO
+	lineageTag: 7d207d0d-f5cc-4e50-ae7d-70e6e94913e3
+
+	column idProduto
+		dataType: int64
+		formatString: 0
+		lineageTag: 92982596-543a-47a3-b5cc-9c0933077515
+		summarizeBy: none
+		sourceColumn: idProduto
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricaoProduto
+		dataType: string
+		lineageTag: 42839d01-c637-47fe-b718-e18e16b6db12
+		summarizeBy: none
+		sourceColumn: descricaoProduto
+
+		annotation SummarizationSetBy = Automatic
+
+	column custoUnitario
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: b7cb26ae-f899-462d-b2bd-ae3d282f4210
+		summarizeBy: none
+		sourceColumn: custoUnitario
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column precoVenda
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: db50c173-d041-40ee-a39f-a3d8431fa3b1
+		summarizeBy: none
+		sourceColumn: precoVenda
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Fornecedor
+		dataType: int64
+		formatString: 0
+		lineageTag: 5c3d5570-0c27-4461-b26e-011ee815e81b
+		summarizeBy: none
+		sourceColumn: Fornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tblPRODUTO = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\robso\OneDrive\Área de Trabalho\PROJETO POWER BI IMPACTA\ProjetoPowerBi_Faculdade_Impacata-2\baseVendas_Normalizado-2.xlsx"), null, true),
+				    tblPRODUTO_Table = Fonte{[Item="tblPRODUTO",Kind="Table"]}[Data],
+				    #"Tipo Alterado" = Table.TransformColumnTypes(tblPRODUTO_Table,{{"idProduto", Int64.Type}, {"descricaoProduto", type text}, {"custoUnitario", Currency.Type}, {"precoVenda", Currency.Type}, {"Fornecedor", Int64.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

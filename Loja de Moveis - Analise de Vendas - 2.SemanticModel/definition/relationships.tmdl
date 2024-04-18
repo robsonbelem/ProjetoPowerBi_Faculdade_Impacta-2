@@ -1,0 +1,21 @@
+relationship a082d55b-6d71-40e3-9828-f2e8a1da847e
+	fromColumn: tblVENDAS.idLOJA
+	toColumn: tblLOJA.idLoja
+
+relationship 24b42607-df9b-465b-b8b3-c87d5d6ece3a
+	fromColumn: tblVENDAS.idPRODUTO
+	toColumn: tblPRODUTO.idProduto
+
+relationship 256d5897-f9c4-476b-9003-4db6c094a9d9
+	fromColumn: tblVENDAS.idVENDEDOR
+	toColumn: tblVENDEDOR.idVendedor
+
+relationship 96170577-57bf-4244-9fa4-e1a16149e632
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TBLCALENDARIO.Date
+	toColumn: LocalDateTable_ee85d2c1-9694-4ae5-a8cf-a2698fdc17fe.Date
+
+relationship 49032cda-e335-42f1-8fe7-6e3ad1bf36b5
+	fromColumn: tblVENDAS.DATA
+	toColumn: TBLCALENDARIO.Date
+

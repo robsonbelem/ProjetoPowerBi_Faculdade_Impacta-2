@@ -1,0 +1,48 @@
+table tblLOJA
+	lineageTag: 670a70ee-b395-4fdd-84ab-160a20d492a4
+
+	column idLoja
+		dataType: int64
+		formatString: 0
+		lineageTag: aacbb333-e9ba-403b-b334-8a9fd0bae57f
+		summarizeBy: none
+		sourceColumn: idLoja
+
+		annotation SummarizationSetBy = Automatic
+
+	column DescricaoLoja
+		dataType: string
+		lineageTag: 7e0aba3f-ce0a-435c-8d42-cfee6fab8c11
+		summarizeBy: none
+		sourceColumn: DescricaoLoja
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		lineageTag: d317d8e5-f426-4fb9-8a7a-e4f3fa96542d
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column Uf
+		dataType: string
+		lineageTag: 773953d4-9180-4286-adee-a546f23513d7
+		summarizeBy: none
+		sourceColumn: Uf
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tblLOJA = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\robso\OneDrive\Área de Trabalho\PROJETO POWER BI IMPACTA\ProjetoPowerBi_Faculdade_Impacata-2\baseVendas_Normalizado-2.xlsx"), null, true),
+				    tblLOJA_Table = Fonte{[Item="tblLOJA",Kind="Table"]}[Data],
+				    #"Tipo Alterado" = Table.TransformColumnTypes(tblLOJA_Table,{{"idLoja", Int64.Type}, {"DescricaoLoja", type text}, {"Cidade", type text}, {"Uf", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
