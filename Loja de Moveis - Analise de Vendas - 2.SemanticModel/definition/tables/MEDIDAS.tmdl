@@ -67,7 +67,7 @@ table MEDIDAS
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 351e15b0-98bf-40cc-8513-0a3ca4c6c2d5
 
-	measure Meta = IF(MEDIDAS[Dif Ano %]>=0,"Aprovado","Reprovado")
+	measure Meta = IF(MEDIDAS[Dif Ano %]>=0,"Aprovado✅","Reprovado❌")
 		lineageTag: bce29b4d-a818-4af3-848c-d17d1db442de
 
 	column Column
